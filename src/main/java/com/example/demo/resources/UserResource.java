@@ -31,7 +31,7 @@ public class UserResource {
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> obj = service.findAll();
-		List<UserDTO> objDto = obj.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+		List<UserDTO> objDto = service.toDtoList(obj);
 		return ResponseEntity.ok().body(objDto);
 	}
 	
