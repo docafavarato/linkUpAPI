@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.PostDTO;
 
 import jakarta.persistence.Id;
 
@@ -18,7 +19,7 @@ public class Comment implements Serializable {
 	private String body;
 	private String date;
 	
-	private Post post;
+	private PostDTO post;
 	
 	private AuthorDTO author;
 	
@@ -52,11 +53,11 @@ public class Comment implements Serializable {
 		return date;
 	}
 
-	public Post getPost() {
+	public PostDTO getPost() {
 		return post;
 	}
 	
-	public void setPost(Post post) {
+	public void setPost(PostDTO post) {
 		this.post = post;
 	}
 	

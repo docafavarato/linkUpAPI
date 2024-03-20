@@ -20,62 +20,55 @@ import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.PostDTO;
+import com.example.demo.service.CommentService;
 import com.example.demo.service.PostService;
 import com.example.demo.service.UserService;
 
 @RestController
-@RequestMapping(value="/posts")
-public class PostResource {
+@RequestMapping(value="/comments")
+public class CommentResource {
 	
 	@Autowired
-	private PostService service;
+	private CommentService service;
+	
+	@Autowired
+	private PostService postService;
 	
 	@Autowired
 	private UserService userService;
 
 	@GetMapping
-	public ResponseEntity<List<PostDTO>> findAll() {
-		List<Post> obj = service.findAll();
-		List<PostDTO> objDto = service.toDtoList(obj);
-		return ResponseEntity.ok().body(objDto);
-	}
-	
-	@GetMapping(value="/{id}")
-	public ResponseEntity<PostDTO> findById(@PathVariable String id) {
-		Post obj = service.findById(id);
-		return ResponseEntity.ok().body(new PostDTO(obj));
-	}
-	
-	@GetMapping(value="/{id}/comments")
-	public ResponseEntity<List<Comment>> findComments(@PathVariable String id) {
-		List<Comment> obj = service.findById(id).getComments();
+	public ResponseEntity<List<Comment>> findAll() {
+		List<Comment> obj = service.findAll();
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PostMapping(value="/insert", params={"userId"})
-	public ResponseEntity<Void> insert(@RequestBody Post obj, @RequestParam String userId) {
-		Post post = service.insert(obj, userId);
+	@GetMapping(value="/{id}")
+	public ResponseEntity<Comment> findById(@PathVariable String id) {
+		Comment obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@PostMapping(value="/insert", params={"postId", "userId"})
+	public ResponseEntity<Void> insert(@RequestBody Comment obj, @RequestParam String postId, @RequestParam String userId) {
+		Comment comment = service.insert(obj, postId, userId);
 		
+		Post post = postService.findById(postId);
 		User user = userService.findById(userId);
-		obj.setAuthor(new AuthorDTO(user));
-		user.getPosts().add(obj);
+		
+		post.getComments().add(comment);
+		user.getComments().add(comment);
+		
+		postService.save(post);
 		userService.save(user);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(comment.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.delete(id);
-		return ResponseEntity.noContent().build();
-	}
-	
-	@PutMapping(value="/{id}")
-	public ResponseEntity<Void> update(@RequestBody Post obj, @PathVariable String id) {
-		obj.setId(id);
-		Post post = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 }

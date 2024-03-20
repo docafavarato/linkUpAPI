@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Post;
-import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.PostDTO;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -42,6 +43,10 @@ public class PostService {
 		return repository.insert(obj);
 	}
 	
+	public Post save(Post post) {
+		return repository.save(post);
+	}
+	
 	public void delete(String id) {
 		findById(id); // throw exception
 		repository.deleteById(id);
@@ -56,5 +61,10 @@ public class PostService {
 	public void updateData(Post newObj, Post obj) {
 		newObj.setTitle(obj.getTitle());
 		newObj.setBody(obj.getBody());
+	}
+	
+	public List<PostDTO> toDtoList(List<Post> obj) {
+		List<PostDTO> objDto = obj.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+		return objDto;
 	}
 }
