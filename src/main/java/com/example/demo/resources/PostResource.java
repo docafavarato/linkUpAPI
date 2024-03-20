@@ -13,31 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.service.UserService;
+import com.example.demo.service.PostService;
 
 @RestController
-@RequestMapping(value="/users")
-public class UserResource {
+@RequestMapping(value="/posts")
+public class PostResource {
 	
 	@Autowired
-	private UserService service;
+	private PostService service;
 
 	@GetMapping
-	public ResponseEntity<List<UserDTO>> findAll() {
-		List<User> obj = service.findAll();
-		List<UserDTO> objDto = obj.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(objDto);
+	public ResponseEntity<List<Post>> findAll() {
+		List<Post> obj = service.findAll();
+		return ResponseEntity.ok().body(obj);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-		User obj = service.findById(id);
-		return ResponseEntity.ok().body(new UserDTO(obj));
-	}
-	
-	@GetMapping(value="/{id}/posts")
-	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
-		List<Post> obj = service.findById(id).getPosts();
+	public ResponseEntity<Post> findById(@PathVariable String id) {
+		Post obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 }
