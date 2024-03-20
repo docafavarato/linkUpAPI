@@ -1,9 +1,11 @@
 package com.example.demo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
@@ -22,6 +24,9 @@ public class Post implements Serializable {
 	private String body;
 	
 	private AuthorDTO author;
+	
+	@DBRef(lazy=true)
+	private List<Comment> comments = new ArrayList<>();
 	
 	public Post() {
 	}
@@ -72,6 +77,14 @@ public class Post implements Serializable {
 
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	@Override

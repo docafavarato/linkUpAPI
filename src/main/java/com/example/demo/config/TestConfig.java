@@ -9,9 +9,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -25,6 +27,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private PostRepository postRepository;
 	
+	@Autowired
+	private CommentRepository commentRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -33,6 +38,7 @@ public class TestConfig implements CommandLineRunner {
 		
 		userRepository.deleteAll();
 		postRepository.deleteAll();
+		commentRepository.deleteAll();
 		
 		User u1 = new User(null, "doca", "docafavarato@gmail.com", "doca123");
 		User u2 = new User(null, "Thiago Martins", "thiago@gmail.com", "thiago123");
@@ -47,6 +53,17 @@ public class TestConfig implements CommandLineRunner {
 		
 		u1.getPosts().add(post1);
 		u1.getPosts().add(post2);
+		
+		userRepository.saveAll(Arrays.asList(u1));
+		
+		Comment c1 = new Comment(null, "First comment", "21/04/2024");
+		
+		commentRepository.saveAll(Arrays.asList(c1));
+		
+		post1.getComments().add(c1);
+		u1.getComments().add(c1);
+	
+		postRepository.saveAll(Arrays.asList(post1));
 		
 		userRepository.saveAll(Arrays.asList(u1));
 	}
