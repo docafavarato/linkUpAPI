@@ -10,4 +10,5 @@ import com.example.demo.domain.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 	public List<User> findByUserNameIgnoreCaseContains(String userName);
+	public User findByEmail(String email);
 }

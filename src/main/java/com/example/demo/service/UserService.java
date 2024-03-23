@@ -36,6 +36,11 @@ public class UserService {
 		return obj;
 	}
 	
+	public User findByEmail(String email) {
+		User obj = repository.findByEmail(email);
+		return obj;
+	}
+	
 	public User insert(User obj) {
 		return repository.insert(obj);
 	}
@@ -60,10 +65,11 @@ public class UserService {
 		newObj.setUserName(obj.getUserName());
 		newObj.setEmail(obj.getEmail());
 		newObj.setPassword(obj.getPassword());
+		newObj.setImgUrl(obj.getImgUrl());
 	}
 	
 	public User fromDTO(UserDTO objDto) {
-		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword());
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword(), objDto.getImgUrl());
 	}
 	
 	public List<UserDTO> toDtoList(List<User> obj) {

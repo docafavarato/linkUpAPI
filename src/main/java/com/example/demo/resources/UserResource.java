@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.domain.Comment;
-import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
+import com.example.demo.dto.PostDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.service.PostService;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -28,7 +30,7 @@ public class UserResource {
 	
 	@Autowired
 	private UserService service;
-
+	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> obj = service.findAll();
@@ -43,8 +45,9 @@ public class UserResource {
 	}
 	
 	@GetMapping(value="/{id}/posts")
-	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
-		List<Post> obj = service.findById(id).getPosts();
+	public ResponseEntity<List<PostDTO>> findPosts(@PathVariable String id) {
+		User user = service.findById(id);
+		List<PostDTO> obj = user.getPosts().stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(obj);
 	}
 	
@@ -54,7 +57,20 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PostMapping
+	@GetMapping(value="/search", params={"userName"})
+	public ResponseEntity<List<UserDTO>> findByUserName(@RequestParam String userName) {
+		List<User> obj = service.findByUserName(userName);
+		List<UserDTO> objDto = service.toDtoList(obj);
+		return ResponseEntity.ok().body(objDto);
+	}
+	
+	@GetMapping(value="/search", params={"email"})
+	public ResponseEntity<UserDTO> findByEmail(@RequestParam String email) {
+		User obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(new UserDTO(obj));
+	}
+	
+	@PostMapping(value="/insert")
 	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) {
 		User user = service.fromDTO(objDto);
 		user = service.insert(user);

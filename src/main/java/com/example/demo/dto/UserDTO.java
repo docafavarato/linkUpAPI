@@ -11,6 +11,7 @@ public class UserDTO implements Serializable {
 	private String name;
 	private String email;
 	private String password;
+	private String imgUrl;
 	
 	public UserDTO() {
 	}
@@ -20,6 +21,7 @@ public class UserDTO implements Serializable {
 		name = obj.getUserName();
 		email = obj.getEmail();
 		setPassword(obj.getPassword());
+		setImgUrl(obj.getImgUrl());
 	}
 
 	public String getId() {
@@ -52,5 +54,13 @@ public class UserDTO implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 }

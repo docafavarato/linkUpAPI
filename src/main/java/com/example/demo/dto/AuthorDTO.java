@@ -8,6 +8,7 @@ public class AuthorDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
+	private String imgUrl;
 	private String name;
 	
 	public AuthorDTO() {
@@ -16,6 +17,7 @@ public class AuthorDTO implements Serializable {
 	public AuthorDTO(User obj) {
 		id = obj.getId();
 		name = obj.getUserName();
+		setImgUrl(obj.getImgUrl());
 	}
 
 	public String getId() {
@@ -32,5 +34,13 @@ public class AuthorDTO implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 }

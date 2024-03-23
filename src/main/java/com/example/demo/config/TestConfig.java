@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.TimeZone;
 
@@ -36,34 +38,26 @@ public class TestConfig implements CommandLineRunner {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		
+		LocalDateTime localDate = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		commentRepository.deleteAll();
 		
-		User u1 = new User(null, "doca", "docafavarato@gmail.com", "doca123");
-		User u2 = new User(null, "Thiago Martins", "thiago@gmail.com", "thiago123");
-		User u3 = new User(null, "Samanta Nunes", "samanta@hotmail.com", "samanta123");
+		User u1 = new User(null, "João Pedro Favarato", "docafavarato@gmail.com", "doca123", "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_square.jpg");
+		User u2 = new User(null, "Thiago Martins", "thiago@gmail.com", "thiago123", "");
+		User u3 = new User(null, "Samanta Nunes", "samanta@hotmail.com", "samanta123", "");
 		
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
-		Post post1 = new Post("21/03/2024", "First post", "This is my first post on LinkUp!", new AuthorDTO(u1));
-		Post post2 = new Post("21/03/2024", "How are you guys?", "I loved this new network!", new AuthorDTO(u1));
+		Post post1 = new Post(formatter.format(localDate), "First post", "This is my first post on LinkUp!", new AuthorDTO(u1));
+		Post post2 = new Post(formatter.format(localDate), "How are you guys?", "I loved this new network!", new AuthorDTO(u2));
 		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 		
 		u1.getPosts().add(post1);
-		u1.getPosts().add(post2);
-		
-		userRepository.saveAll(Arrays.asList(u1));
-		
-		Comment c1 = new Comment(null, "First comment", "21/04/2024");
-		
-		commentRepository.saveAll(Arrays.asList(c1));
-		
-		post1.getComments().add(c1);
-		u1.getComments().add(c1);
-	
-		postRepository.saveAll(Arrays.asList(post1));
+		u2.getPosts().add(post2);
 		
 		userRepository.saveAll(Arrays.asList(u1));
 	}

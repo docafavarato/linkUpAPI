@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -34,9 +34,14 @@ public class PostService {
 		return obj;
 	}
 	
+	public List<Post> findAllOrderByDate() {
+		List<Post> obj = repository.findAllByOrderByDateDesc();
+		return obj;
+	}
+	
 	public Post insert(Post obj, String userId) {
-		LocalDate localDate = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDateTime localDate = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 		obj.setDate(localDate.format(formatter));
 		obj.setAuthor(new AuthorDTO(userRepository.findById(userId).get()));

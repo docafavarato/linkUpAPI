@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,8 +19,13 @@ public class User implements Serializable {
 	private String id;
 	
 	private String userName;
+	
+	@Indexed(unique=true)
 	private String email;
+	
 	private String password;
+	
+	private String imgUrl;
 	
 	@DBRef(lazy=true)
 	private List<Post> posts = new ArrayList<>();
@@ -30,12 +36,13 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String id, String userName, String email, String password) {
+	public User(String id, String userName, String email, String password, String imgUrl) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
+		this.setImgUrl(imgUrl);
 	}
 
 	public String getId() {
@@ -86,11 +93,14 @@ public class User implements Serializable {
 		this.comments = comments;
 	}
 	
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
