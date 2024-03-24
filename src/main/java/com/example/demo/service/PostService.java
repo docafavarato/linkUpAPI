@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Post;
+import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.repository.PostRepository;
@@ -54,6 +55,10 @@ public class PostService {
 	
 	public void delete(String id) {
 		findById(id); // throw exception
+		Post post = repository.findById(id).get();
+		User user = userRepository.findById(post.getAuthor().getId()).get();
+		user.getPosts().remove(user.getPosts().indexOf(post));
+		userRepository.save(user);
 		repository.deleteById(id);
 	}
 	
