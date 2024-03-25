@@ -43,35 +43,31 @@ public class CommentService {
 		return repository.findAllByOrderByDateDesc();
 	}
 	
+	public Comment save(Comment comment) {
+		return repository.save(comment);
+	}
+	
 	public Comment insert(Comment obj, String postId, String userId) {
 		LocalDateTime localDate = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-		
-		Post post = postRepository.findById(postId).get();
-		User user = userRepository.findById(userId).get();
 
 		obj.setDate(localDate.format(formatter));
-		obj.setPost(new PostDTO(post));
-		obj.setAuthor(new AuthorDTO(user));
-	
+		
 		return repository.insert(obj);
 	}
 	
 	public void delete(String id) {
-		Comment obj = findById(id); // throw exception
+		Comment obj = repository.findById(id).get();
 
 	    Post post = postRepository.findById(obj.getPost().getId()).get();
 	    User user = userRepository.findById(obj.getAuthor().getId()).get();
-
-	    if (post.getComments().contains(obj)) {
-	        post.getComments().remove(obj);
-	    }
-
-	    if (user.getComments().contains(obj)) {
-	        user.getComments().remove(obj);
-	    }
-
+	    
+	    List<Comment> postComments = post.getComments();
+	    postComments.remove(obj);
 	    postRepository.save(post);
+	    
+	    List<Comment> userComments = user.getComments();
+	    userComments.remove(obj);
 	    userRepository.save(user);
 
 	    repository.deleteById(id);

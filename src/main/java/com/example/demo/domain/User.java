@@ -30,7 +30,7 @@ public class User implements Serializable {
 	@DBRef(lazy=true)
 	private List<Post> posts = new ArrayList<>();
 	
-	@DBRef(lazy=true)
+	@DBRef(lazy=false)
 	private List<Comment> comments = new ArrayList<>();
 	
 	public User() {
@@ -99,6 +99,18 @@ public class User implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+	
+	public void removeCommentById(String id) {
+		for (Comment comment : getComments()) {
+			getComments().remove(comment);
+		}
+	}
+	
+	public void removePostById(String id) {
+		for (Post post : getPosts()) {
+			getPosts().remove(post);
+		}
 	}
 	
 	@Override

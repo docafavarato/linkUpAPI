@@ -63,11 +63,17 @@ public class CommentResource {
 		Post post = postService.findById(postId);
 		User user = userService.findById(userId);
 		
-		post.addComment(comment);
+		
+		obj.setPost(new PostDTO(post));
+		post.getComments().add(comment);
+		
+		obj.setAuthor(new AuthorDTO(user));
 		user.getComments().add(comment);
 		
 		postService.save(post);
 		userService.save(user);
+		
+		service.save(comment);
 	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(comment.getId()).toUri();
 		return ResponseEntity.created(uri).build();

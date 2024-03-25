@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,21 +26,18 @@ public class Comment implements Serializable {
 	
 	private AuthorDTO author;
 	
-	private String postId;
-	
 	public Comment() {
 	}
 
 	public Comment(String id, String body, String date, PostDTO post, AuthorDTO author) {
-		super();
+		super(); 
 		this.id = id;
 		this.body = body;
 		this.date = date;
 		this.post = post;
 		this.author = author;
-		this.setPostId(post.getId());
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -80,11 +78,20 @@ public class Comment implements Serializable {
 		this.author = author;
 	}
 
-	public String getPostId() {
-		return postId;
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
-	public void setPostId(String postId) {
-		this.postId = postId;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comment other = (Comment) obj;
+		return Objects.equals(id, other.id);
 	}
 }

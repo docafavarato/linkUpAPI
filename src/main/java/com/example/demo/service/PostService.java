@@ -59,17 +59,19 @@ public class PostService {
 	}
 	
 	public void delete(String id) {
-		findById(id); // throw exception
 		Post post = repository.findById(id).get();
 		User user = userRepository.findById(post.getAuthor().getId()).get();
-		List<Comment> comments = post.getComments().stream().map(x -> commentRepository.findById(x.getId()).get()).collect(Collectors.toList());
-		
-		user.getPosts().remove(user.getPosts().indexOf(post));
+
+		user.getPosts().remove(post);
 		userRepository.save(user);
 		
-		for (Comment comment : comments) {
-			commentRepository.delete(comment);
+		for (Comment c : post.getComments()) {
+			User u = userRepository.findById(c.getAuthor().getId()).get();
+			u.getComments().remove(c);
+			userRepository.save(u);
 		}
+
+		commentRepository.deleteAllByPostId(id);
 		
 		repository.deleteById(id);
 	}

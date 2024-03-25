@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.User;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -20,6 +21,9 @@ public class UserService {
 	
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	public User findById(String id) {
 		Optional<User> obj = repository.findById(id);
@@ -53,6 +57,7 @@ public class UserService {
 		findById(id); // throw exception
 		repository.deleteById(id);
 		postRepository.deleteAllByAuthorId(id);
+		commentRepository.deleteAllByAuthorId(id);
 	}
 	
 	public User update(User obj) {

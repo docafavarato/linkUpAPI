@@ -85,12 +85,16 @@ public class Post implements Serializable {
 		return comments;
 	}
 	
-	public void addComment(Comment obj) {
-		this.comments.add(obj);
-	}
-	
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+	
+	public void removeCommentById(String id) {
+		for (Comment comment : getComments()) {
+			if (comment.getId() == id) {
+				getComments().remove(comment);
+			}
+		}
 	}
 	
 	@Override

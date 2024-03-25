@@ -12,4 +12,6 @@ import com.example.demo.domain.Post;
 public interface CommentRepository extends MongoRepository<Comment, String> {
 	public List<Comment> findByBodyIgnoreCaseContains(String body);
 	public List<Comment> findAllByOrderByDateDesc();
+	public void deleteAllByAuthorId(String authorId);
+	public void deleteAllByPostId(String postId);
 }

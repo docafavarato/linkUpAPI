@@ -46,7 +46,7 @@ public class TestConfig implements CommandLineRunner {
 		postRepository.deleteAll();
 		commentRepository.deleteAll();
 		
-		User u1 = new User(null, "João Pedro Favarato", "docafavarato@gmail.com", "doca123", "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_square.jpg");
+		User u1 = new User(null, "João Pedro Favarato", "doca@g", "123", "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_square.jpg");
 		User u2 = new User(null, "Thiago Martins", "thiago@gmail.com", "thiago123", "");
 		User u3 = new User(null, "Samanta Nunes", "samanta@hotmail.com", "samanta123", "");
 		
@@ -62,20 +62,20 @@ public class TestConfig implements CommandLineRunner {
 		
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		
-		Comment c1 = new Comment(null, "Comentando de boa", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u1));
+		/*Comment c1 = new Comment(null, "Comentando de boa", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u1));
 		Comment c2 = new Comment(null, "Eu sei comentar de boa ahahahaha", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u2));
 		Comment c3 = new Comment(null, "Eu também sei cara :P", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u3));
 		
 		commentRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
 		u1.getComments().add(c1);
-		u1.getComments().add(c2);
-		u1.getComments().add(c3);
+		u2.getComments().add(c2);
+		u3.getComments().add(c3);
 		post1.addComment(c1);
 		post1.addComment(c2);
 		post1.addComment(c3);
 		
-		userRepository.saveAll(Arrays.asList(u1));
-		postRepository.saveAll(Arrays.asList(post1));
+		userRepository.saveAll(Arrays.asList(u1, u2, u3));
+		postRepository.saveAll(Arrays.asList(post1)); */
 	}
 }
