@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.PostDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Id;
 
@@ -19,18 +20,24 @@ public class Comment implements Serializable {
 	private String body;
 	private String date;
 	
+	@JsonIgnore
 	private PostDTO post;
 	
 	private AuthorDTO author;
 	
+	private String postId;
+	
 	public Comment() {
 	}
 
-	public Comment(String id, String body, String date) {
+	public Comment(String id, String body, String date, PostDTO post, AuthorDTO author) {
 		super();
 		this.id = id;
 		this.body = body;
 		this.date = date;
+		this.post = post;
+		this.author = author;
+		this.setPostId(post.getId());
 	}
 
 	public String getId() {
@@ -71,5 +78,13 @@ public class Comment implements Serializable {
 
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
+	}
+
+	public String getPostId() {
+		return postId;
+	}
+
+	public void setPostId(String postId) {
+		this.postId = postId;
 	}
 }

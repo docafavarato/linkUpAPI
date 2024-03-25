@@ -2,8 +2,8 @@ package com.example.demo.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 
 public class PostDTO implements Serializable {
@@ -16,7 +16,7 @@ public class PostDTO implements Serializable {
 	
 	AuthorDTO author;
 	
-	List<Comment> comments;
+	List<CommentDTO> comments;
 	
 	public PostDTO() {
 	}
@@ -28,7 +28,7 @@ public class PostDTO implements Serializable {
 		setTitle(obj.getTitle());
 		setBody(obj.getBody());
 		setAuthor(obj.getAuthor());
-		setComments(obj.getComments());
+		setComments(obj.getComments().stream().map(x -> new CommentDTO(x)).collect(Collectors.toList()));
 	}
 
 	public String getId() {
@@ -71,11 +71,11 @@ public class PostDTO implements Serializable {
 		this.author = author;
 	}
 
-	public List<Comment> getComments() {
+	public List<CommentDTO> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<CommentDTO> comments) {
 		this.comments = comments;
 	}
 }

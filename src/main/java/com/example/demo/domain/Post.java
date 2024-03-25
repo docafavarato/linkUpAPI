@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.CommentDTO;
 
 import jakarta.persistence.Id;
 
@@ -81,6 +83,10 @@ public class Post implements Serializable {
 	
 	public List<Comment> getComments() {
 		return comments;
+	}
+	
+	public void addComment(Comment obj) {
+		this.comments.add(obj);
 	}
 	
 	public void setComments(List<Comment> comments) {

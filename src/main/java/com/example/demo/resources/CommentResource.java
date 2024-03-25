@@ -20,6 +20,7 @@ import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.PostDTO;
 import com.example.demo.service.CommentService;
 import com.example.demo.service.PostService;
 import com.example.demo.service.UserService;
@@ -43,6 +44,12 @@ public class CommentResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@GetMapping(value="/orderByDate")
+	public ResponseEntity<List<Comment>> findAllOrderByDate() {
+		List<Comment> obj = service.findAllByOrderByDateDesc();
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Comment> findById(@PathVariable String id) {
 		Comment obj = service.findById(id);
@@ -56,12 +63,12 @@ public class CommentResource {
 		Post post = postService.findById(postId);
 		User user = userService.findById(userId);
 		
-		post.getComments().add(comment);
+		post.addComment(comment);
 		user.getComments().add(comment);
 		
 		postService.save(post);
 		userService.save(user);
-		
+	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(comment.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

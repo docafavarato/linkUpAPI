@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +39,13 @@ public class CommentService {
 		return obj;
 	}
 	
+	public List<Comment> findAllByOrderByDateDesc() {
+		return repository.findAllByOrderByDateDesc();
+	}
+	
 	public Comment insert(Comment obj, String postId, String userId) {
-		LocalDate localDate = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDateTime localDate = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
@@ -49,12 +53,27 @@ public class CommentService {
 		obj.setDate(localDate.format(formatter));
 		obj.setPost(new PostDTO(post));
 		obj.setAuthor(new AuthorDTO(user));
-			
+	
 		return repository.insert(obj);
 	}
 	
 	public void delete(String id) {
-		findById(id); // throw exception
-		repository.deleteById(id);
+		Comment obj = findById(id); // throw exception
+
+	    Post post = postRepository.findById(obj.getPost().getId()).get();
+	    User user = userRepository.findById(obj.getAuthor().getId()).get();
+
+	    if (post.getComments().contains(obj)) {
+	        post.getComments().remove(obj);
+	    }
+
+	    if (user.getComments().contains(obj)) {
+	        user.getComments().remove(obj);
+	    }
+
+	    postRepository.save(post);
+	    userRepository.save(user);
+
+	    repository.deleteById(id);
 	}
 }

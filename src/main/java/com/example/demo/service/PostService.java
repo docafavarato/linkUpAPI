@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.PostDTO;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -24,6 +26,9 @@ public class PostService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	public Post findById(String id) {
 		Optional<Post> obj = repository.findById(id);
@@ -57,8 +62,15 @@ public class PostService {
 		findById(id); // throw exception
 		Post post = repository.findById(id).get();
 		User user = userRepository.findById(post.getAuthor().getId()).get();
+		List<Comment> comments = post.getComments().stream().map(x -> commentRepository.findById(x.getId()).get()).collect(Collectors.toList());
+		
 		user.getPosts().remove(user.getPosts().indexOf(post));
 		userRepository.save(user);
+		
+		for (Comment comment : comments) {
+			commentRepository.delete(comment);
+		}
+		
 		repository.deleteById(id);
 	}
 	
