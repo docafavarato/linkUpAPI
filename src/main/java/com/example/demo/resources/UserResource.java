@@ -91,4 +91,29 @@ public class UserResource {
 		user = service.update(user);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping(value="/{id}/like", params={"postId"})
+	public ResponseEntity<Void> likePost(@PathVariable String id, @RequestParam String postId) {
+		service.likePost(id, postId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value="/{id}/unlike", params={"postId"})
+	public ResponseEntity<Void> unlikePost(@PathVariable String id, @RequestParam String postId) {
+		service.unlikePost(id, postId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value="/{id}/follow", params={"userId"})
+	public ResponseEntity<Void> follow(@PathVariable String id, @RequestParam String userId) {
+		service.follow(id, userId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value="/{id}/unfollow", params={"userId"})
+	public ResponseEntity<Void> unfollow(@PathVariable String id, @RequestParam String userId) {
+		service.unfollow(id, userId);
+		return ResponseEntity.noContent().build();
+	}
+	
 }

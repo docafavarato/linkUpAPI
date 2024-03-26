@@ -61,21 +61,5 @@ public class TestConfig implements CommandLineRunner {
 		u2.getPosts().add(post2);
 		
 		userRepository.saveAll(Arrays.asList(u1, u2));
-		
-		/*Comment c1 = new Comment(null, "Comentando de boa", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u1));
-		Comment c2 = new Comment(null, "Eu sei comentar de boa ahahahaha", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u2));
-		Comment c3 = new Comment(null, "Eu também sei cara :P", formatter.format(localDate), new PostDTO(post1), new AuthorDTO(u3));
-		
-		commentRepository.saveAll(Arrays.asList(c1, c2, c3));
-		
-		u1.getComments().add(c1);
-		u2.getComments().add(c2);
-		u3.getComments().add(c3);
-		post1.addComment(c1);
-		post1.addComment(c2);
-		post1.addComment(c3);
-		
-		userRepository.saveAll(Arrays.asList(u1, u2, u3));
-		postRepository.saveAll(Arrays.asList(post1)); */
 	}
 }

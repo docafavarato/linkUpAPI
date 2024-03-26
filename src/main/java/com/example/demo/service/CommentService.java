@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
-import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.PostDTO;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.services.exception.ObjectNotFoundException;
 
 @Service
 public class CommentService {
@@ -31,7 +30,7 @@ public class CommentService {
 
 	public Comment findById(String id) {
 		Optional<Comment> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Comment not found"));
 	}
 	
 	public List<Comment> findAll() {

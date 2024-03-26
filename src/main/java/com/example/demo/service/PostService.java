@@ -17,6 +17,7 @@ import com.example.demo.dto.PostDTO;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.services.exception.ObjectNotFoundException;
 
 @Service
 public class PostService {
@@ -32,7 +33,7 @@ public class PostService {
 	
 	public Post findById(String id) {
 		Optional<Post> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Post not found"));
 	}
 	
 	public List<Post> findAll() {

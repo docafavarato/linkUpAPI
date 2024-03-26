@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.CommentDTO;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserLikeDTO;
 
 import jakarta.persistence.Id;
 
@@ -29,6 +29,8 @@ public class Post implements Serializable {
 	
 	@DBRef(lazy=true)
 	private List<Comment> comments = new ArrayList<>();
+	
+	private List<UserLikeDTO> usersThatLiked = new ArrayList<>();
 	
 	public Post() {
 	}
@@ -89,12 +91,12 @@ public class Post implements Serializable {
 		this.comments = comments;
 	}
 	
-	public void removeCommentById(String id) {
-		for (Comment comment : getComments()) {
-			if (comment.getId() == id) {
-				getComments().remove(comment);
-			}
-		}
+	public List<UserLikeDTO> getUsersThatLiked() {
+		return usersThatLiked;
+	}
+
+	public void setUsersThatLiked(List<UserLikeDTO> usersThatLiked) {
+		this.usersThatLiked = usersThatLiked;
 	}
 	
 	@Override

@@ -1,6 +1,10 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.example.demo.domain.User;
 
@@ -15,6 +19,10 @@ public class UserDTO implements Serializable {
 	private String description;
 	private String birthDate;
 	
+	private List<String> likedPostsId = new ArrayList<>();
+	private List<String> followersId = new ArrayList<>();
+	private List<String> followingId = new ArrayList<>();
+	
 	public UserDTO() {
 	}
 	
@@ -25,7 +33,10 @@ public class UserDTO implements Serializable {
 		setPassword(obj.getPassword());
 		setImgUrl(obj.getImgUrl());
 		setDescription(obj.getDescription());
-		setBirthDate(obj.getBirthDate());		
+		setBirthDate(obj.getBirthDate());
+		setLikedPostsId(obj.getlikedPosts().stream().map(x -> x.getId()).collect(Collectors.toList()));
+		setFollowersId(obj.getFollowers().stream().map(x -> x.getId()).collect(Collectors.toList()));
+		setFollowingId(obj.getFollowing().stream().map(x -> x.getId()).collect(Collectors.toList()));
 	}
 
 	public String getId() {
@@ -82,5 +93,46 @@ public class UserDTO implements Serializable {
 
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public List<String> getLikedPostsId() {
+		return likedPostsId;
+	}
+
+	public void setLikedPostsId(List<String> likedPostsId) {
+		this.likedPostsId = likedPostsId;
+	}
+
+	public List<String> getFollowersId() {
+		return followersId;
+	}
+
+	public void setFollowersId(List<String> followersId) {
+		this.followersId = followersId;
+	}
+
+	public List<String> getFollowingId() {
+		return followingId;
+	}
+
+	public void setFollowingId(List<String> followingId) {
+		this.followingId = followingId;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserDTO other = (UserDTO) obj;
+		return Objects.equals(id, other.id);
 	}
 }

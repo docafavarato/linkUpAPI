@@ -9,6 +9,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.example.demo.dto.PostDTO;
+import com.example.demo.dto.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Id;
 
 @Document
@@ -33,6 +37,11 @@ public class User implements Serializable {
 	
 	@DBRef(lazy=false)
 	private List<Comment> comments = new ArrayList<>();
+	
+	private List<PostDTO> likedPosts = new ArrayList<>();
+	
+	private List<UserDTO> followers = new ArrayList<>();
+	private List<UserDTO> following = new ArrayList<>();
 	
 	public User() {
 	}
@@ -118,6 +127,30 @@ public class User implements Serializable {
 
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
+	}
+	
+	public List<PostDTO> getlikedPosts() {
+		return likedPosts;
+	}
+
+	public void setPostsLiked(List<PostDTO> likedPosts) {
+		this.likedPosts = likedPosts;
+	}
+	
+	public List<UserDTO> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<UserDTO> following) {
+		this.following = following;
+	}
+	
+	public List<UserDTO> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<UserDTO> followers) {
+		this.followers = followers;
 	}
 	
 	@Override

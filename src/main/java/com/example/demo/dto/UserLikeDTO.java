@@ -1,21 +1,22 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.example.demo.domain.User;
 
-public class AuthorDTO implements Serializable {
+public class UserLikeDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
-	private String imgUrl;
 	private String name;
+	private String imgUrl;
 	private String description;
 	
-	public AuthorDTO() {
+	public UserLikeDTO() {
 	}
 	
-	public AuthorDTO(User obj) {
+	public UserLikeDTO(User obj) {
 		setId(obj.getId());
 		setName(obj.getUserName());
 		setImgUrl(obj.getImgUrl());
@@ -45,12 +46,29 @@ public class AuthorDTO implements Serializable {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserLikeDTO other = (UserLikeDTO) obj;
+		return Objects.equals(id, other.id);
 	}
 }

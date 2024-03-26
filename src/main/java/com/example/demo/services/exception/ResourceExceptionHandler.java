@@ -16,4 +16,11 @@ public class ResourceExceptionHandler {
 		StandartError err = new StandartError(System.currentTimeMillis(), status.value(), "Not found", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<StandartError> badRequest(BadRequestException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandartError err = new StandartError(System.currentTimeMillis(), status.value(), "Bad request", e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
 }
