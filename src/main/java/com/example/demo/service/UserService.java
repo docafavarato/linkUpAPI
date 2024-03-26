@@ -71,10 +71,13 @@ public class UserService {
 		newObj.setEmail(obj.getEmail());
 		newObj.setPassword(obj.getPassword());
 		newObj.setImgUrl(obj.getImgUrl());
+		newObj.setDescription(obj.getDescription());
+		newObj.setBirthDate(obj.getBirthDate());
 	}
 	
 	public User fromDTO(UserDTO objDto) {
-		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword(), objDto.getImgUrl());
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword(),
+				objDto.getImgUrl(), objDto.getDescription(), objDto.getBirthDate());
 	}
 	
 	public List<UserDTO> toDtoList(List<User> obj) {

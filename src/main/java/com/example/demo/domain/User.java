@@ -24,8 +24,9 @@ public class User implements Serializable {
 	private String email;
 	
 	private String password;
-	
 	private String imgUrl;
+	private String description;
+	private String birthDate;
 	
 	@DBRef(lazy=true)
 	private List<Post> posts = new ArrayList<>();
@@ -36,13 +37,15 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String id, String userName, String email, String password, String imgUrl) {
+	public User(String id, String userName, String email, String password, String imgUrl, String description, String birthDate) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
-		this.setImgUrl(imgUrl);
+		setImgUrl(imgUrl);
+		setDescription(description);
+		setBirthDate(birthDate);
 	}
 
 	public String getId() {
@@ -101,16 +104,20 @@ public class User implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 	
-	public void removeCommentById(String id) {
-		for (Comment comment : getComments()) {
-			getComments().remove(comment);
-		}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
-	public void removePostById(String id) {
-		for (Post post : getPosts()) {
-			getPosts().remove(post);
-		}
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
 	}
 	
 	@Override
