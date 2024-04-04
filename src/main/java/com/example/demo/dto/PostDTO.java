@@ -31,7 +31,7 @@ public class PostDTO implements Serializable {
 		setTitle(obj.getTitle());
 		setBody(obj.getBody());
 		setAuthor(obj.getAuthor());
-		setComments(obj.getComments().stream().map(x -> new CommentDTO(x)).collect(Collectors.toList()));
+		setComments(obj.getComments());
 		setUsersThatLiked(obj.getUsersThatLiked());
 	}
 

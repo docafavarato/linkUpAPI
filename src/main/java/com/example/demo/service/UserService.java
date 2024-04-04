@@ -1,8 +1,15 @@
 package com.example.demo.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +17,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserLikeDTO;
-import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.exception.BadRequestException;
@@ -27,10 +34,7 @@ public class UserService {
 	
 	@Autowired
 	private PostRepository postRepository;
-	
-	@Autowired
-	private CommentRepository commentRepository;
-	
+
 	public User findById(String id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("User not found"));
@@ -43,6 +47,33 @@ public class UserService {
 	
 	public List<User> findByUserName(String userName) {
 		List<User> obj = repository.findByUserNameIgnoreCaseContains(userName);
+		return obj;
+	}
+	
+	public List<Post> findFollowingPosts(String userId) {
+		User user = repository.findById(userId).get();
+		List<Post> obj = new ArrayList<>();
+		
+		for (UserDTO u : user.getFollowing()) {
+			User other = repository.findById(u.getId()).get();
+			obj.addAll(other.getPosts());
+		}
+		
+		Collections.sort(obj, new Comparator<Post>() {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			
+			@Override
+			public int compare(Post post1, Post post2) {
+				try {
+					Date date1 = sdf.parse(post1.getDate());
+					Date date2 = sdf.parse(post2.getDate());
+					return date2.compareTo(date1);
+				} catch (ParseException e) {
+					return 0;
+				}
+			}
+		});
+		
 		return obj;
 	}
 	
@@ -63,7 +94,6 @@ public class UserService {
 		findById(id); // throw exception
 		repository.deleteById(id);
 		postRepository.deleteAllByAuthorId(id);
-		commentRepository.deleteAllByAuthorId(id);
 	}
 	
 	public User update(User obj) {
@@ -105,6 +135,19 @@ public class UserService {
 			throw new BadRequestException("The user already liked this post");
 		}
 	
+	}
+	
+	public void comment(String userId, String postId, CommentDTO comment) {
+		User user = repository.findById(userId).get();
+		Post post = postRepository.findById(postId).get();
+		
+		comment.setId(UUID.randomUUID().toString());
+		
+		user.getComments().add(comment);
+		post.getComments().add(comment);
+		
+		repository.save(user);
+		postRepository.save(post);
 	}
 	
 	public void unlikePost(String userId, String postId) {

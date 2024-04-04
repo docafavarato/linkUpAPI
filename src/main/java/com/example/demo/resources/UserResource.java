@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.domain.Comment;
+import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
+import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.service.PostService;
@@ -30,6 +32,9 @@ public class UserResource {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private PostService postService;
 	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
@@ -52,8 +57,8 @@ public class UserResource {
 	}
 	
 	@GetMapping(value="/{id}/comments")
-	public ResponseEntity<List<Comment>> findComments(@PathVariable String id) {
-		List<Comment> obj = service.findById(id).getComments();
+	public ResponseEntity<List<CommentDTO>> findComments(@PathVariable String id) {
+		List<CommentDTO> obj = service.findById(id).getComments();
 		return ResponseEntity.ok().body(obj);
 	}
 	
@@ -116,4 +121,30 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@GetMapping(value="/{id}/followingPosts")
+	public ResponseEntity<List<PostDTO>> findFollowingPosts(@PathVariable String id) {
+		List<Post> posts = service.findFollowingPosts(id);
+		List<PostDTO> obj = posts.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value="/{id}/comment", params={"postId"})
+	public ResponseEntity<Void> comment(@PathVariable String id, @RequestParam String postId, @RequestBody CommentDTO commentDto) {
+		commentDto.setAuthor(new AuthorDTO(service.findById(id)));
+		service.comment(id, postId, commentDto);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@DeleteMapping(value="/{id}/deleteComment", params={"postId", "commentId"})
+	public ResponseEntity<Void> deleteComment(@PathVariable String id, @RequestParam String postId, @RequestParam String commentId) {
+		User user = service.findById(id);
+		Post post = postService.findById(postId);
+		user.getComments().removeIf(x -> x.getId().equals(commentId));
+		post.getComments().removeIf(x -> x.getId().equals(commentId));
+		
+		service.save(user);
+		postService.save(post);
+		
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.UserLikeDTO;
 
 import jakarta.persistence.Id;
@@ -27,8 +27,7 @@ public class Post implements Serializable {
 	
 	private AuthorDTO author;
 	
-	@DBRef(lazy=true)
-	private List<Comment> comments = new ArrayList<>();
+	private List<CommentDTO> comments = new ArrayList<>();
 	
 	private List<UserLikeDTO> usersThatLiked = new ArrayList<>();
 	
@@ -83,11 +82,11 @@ public class Post implements Serializable {
 		this.author = author;
 	}
 	
-	public List<Comment> getComments() {
+	public List<CommentDTO> getComments() {
 		return comments;
 	}
 	
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<CommentDTO> comments) {
 		this.comments = comments;
 	}
 	

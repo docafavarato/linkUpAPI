@@ -9,12 +9,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
-import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.exception.ObjectNotFoundException;
@@ -28,9 +27,6 @@ public class PostService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private CommentRepository commentRepository;
-	
 	public Post findById(String id) {
 		Optional<Post> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Post not found"));
@@ -41,7 +37,7 @@ public class PostService {
 		return obj;
 	}
 	
-	public List<Post> findAllOrderByDate() {
+	public List<Post> findAllOrderByDateDesc() {
 		List<Post> obj = repository.findAllByOrderByDateDesc();
 		return obj;
 	}
@@ -66,14 +62,12 @@ public class PostService {
 		user.getPosts().remove(post);
 		userRepository.save(user);
 		
-		for (Comment c : post.getComments()) {
+		for (CommentDTO c : post.getComments()) {
 			User u = userRepository.findById(c.getAuthor().getId()).get();
 			u.getComments().remove(c);
 			userRepository.save(u);
 		}
 
-		commentRepository.deleteAllByPostId(id);
-		
 		repository.deleteById(id);
 	}
 	

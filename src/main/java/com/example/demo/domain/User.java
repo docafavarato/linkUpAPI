@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.dto.UserDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Id;
 
@@ -35,8 +35,7 @@ public class User implements Serializable {
 	@DBRef(lazy=true)
 	private List<Post> posts = new ArrayList<>();
 	
-	@DBRef(lazy=false)
-	private List<Comment> comments = new ArrayList<>();
+	private List<CommentDTO> comments = new ArrayList<>();
 	
 	private List<PostDTO> likedPosts = new ArrayList<>();
 	
@@ -97,11 +96,11 @@ public class User implements Serializable {
 		this.posts = posts;
 	}
 	
-	public List<Comment> getComments() {
+	public List<CommentDTO> getComments() {
 		return comments;
 	}
 	
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<CommentDTO> comments) {
 		this.comments = comments;
 	}
 	

@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-import com.example.demo.domain.Comment;
 
 public class CommentDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -15,11 +15,11 @@ public class CommentDTO implements Serializable {
 	public CommentDTO() {
 	}
 	
-	public CommentDTO(Comment obj) {
-		setId(obj.getId());
-		setBody(obj.getBody());
-		setDate(obj.getDate());
-		setAuthor(obj.getAuthor());
+	public CommentDTO(String body, String date, AuthorDTO author) {
+		setId(UUID.randomUUID().toString());
+		setBody(body);
+		setDate(date);
+		setAuthor(author);
 	}
 
 	public String getId() {

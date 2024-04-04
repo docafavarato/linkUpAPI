@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
@@ -43,8 +42,8 @@ public class PostResource {
 	}
 	
 	@GetMapping(value="/orderByDate")
-	public ResponseEntity<List<PostDTO>> findAllOrderByDate() {
-		List<Post> obj = service.findAllOrderByDate();
+	public ResponseEntity<List<PostDTO>> findAllOrderByDateDesc() {
+		List<Post> obj = service.findAllOrderByDateDesc();
 		List<PostDTO> objDto = service.toDtoList(obj);
 		return ResponseEntity.ok().body(objDto);
 	}
@@ -56,8 +55,8 @@ public class PostResource {
 	}
 	
 	@GetMapping(value="/{id}/comments")
-	public ResponseEntity<List<Comment>> findComments(@PathVariable String id) {
-		List<Comment> obj = service.findById(id).getComments();
+	public ResponseEntity<List<CommentDTO>> findComments(@PathVariable String id) {
+		List<CommentDTO> obj = service.findById(id).getComments();
 		return ResponseEntity.ok().body(obj);
 	}
 	
