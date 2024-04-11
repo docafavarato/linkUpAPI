@@ -86,4 +86,8 @@ public class PostService {
 		List<PostDTO> objDto = obj.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
 		return objDto;
 	}
+	
+	public List<Post> findPostsByUserIdOrderByDateDesc(String userId) {
+		return repository.findPostsByAuthorIdOrderByDateDesc(userId);
+	}
 }

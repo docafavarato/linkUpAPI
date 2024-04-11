@@ -1,6 +1,8 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 
@@ -15,10 +17,12 @@ public class CommentDTO implements Serializable {
 	public CommentDTO() {
 	}
 	
-	public CommentDTO(String body, String date, AuthorDTO author) {
+	public CommentDTO(String body, AuthorDTO author) {
+		LocalDateTime localDate = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 		setId(UUID.randomUUID().toString());
 		setBody(body);
-		setDate(date);
+		setDate(localDate.format(formatter));
 		setAuthor(author);
 	}
 

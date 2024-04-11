@@ -12,4 +12,5 @@ import com.example.demo.domain.Post;
 public interface PostRepository extends MongoRepository<Post, String> {
 	public void deleteAllByAuthorId(String userId);
 	public List<Post> findAllByOrderByDateDesc();
+	List<Post> findPostsByAuthorIdOrderByDateDesc(String userId);
 }
