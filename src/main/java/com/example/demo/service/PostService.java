@@ -90,4 +90,8 @@ public class PostService {
 	public List<Post> findPostsByUserIdOrderByDateDesc(String userId) {
 		return repository.findPostsByAuthorIdOrderByDateDesc(userId);
 	}
+	
+	public List<Post> fullSearch(String text) {
+		return repository.fullSearch(text);
+	}
 }

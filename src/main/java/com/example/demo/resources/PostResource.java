@@ -51,6 +51,13 @@ public class PostResource {
 		return ResponseEntity.ok().body(objDto);
 	}
 	
+	@GetMapping(value="/fullSearch")
+	public ResponseEntity<List<PostDTO>> fullSearch(@RequestParam("text") String text) {
+		List<Post> obj = service.fullSearch(text);
+		List<PostDTO> objDto = service.toDtoList(obj);
+		return ResponseEntity.ok().body(objDto);
+	}
+	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<PostDTO> findById(@PathVariable String id) {
 		Post obj = service.findById(id);
