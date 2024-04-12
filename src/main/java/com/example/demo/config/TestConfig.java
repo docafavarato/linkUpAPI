@@ -1,11 +1,8 @@
 package com.example.demo.config;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -35,9 +32,9 @@ public class TestConfig implements CommandLineRunner {
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		
-		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "", "", "", "");
-		User u2 = new User(null, "Alex Green", "alex@gmail.com", "", "", "", "");
-		User u3 = new User(null, "João Pedro Favarato", "doca@g", "123", "", "", "");
+		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "", "https://i2.wp.com/lojamundogeek.com.br/wp-content/uploads/2024/01/Explicacao-da-morte-comovente-de-Jessie-no-TWD-e-como-scaled.jpg", "", "");
+		User u2 = new User(null, "Alex Green", "alex@gmail.com", "", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2Ypq6d0hHXvirwzSp9eqXtSZpTSlnr5RUWsO-E17r6A&s", "", "");
+		User u3 = new User(null, "João Pedro Favarato", "doca@g", "123", "https://s2.glbimg.com/4msuRJyZ0DcD32h7XUE0AGtFHIE=/top/e.glbimg.com/og/ed/f/original/2018/07/20/rick5.png", "", "");
 		
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 		

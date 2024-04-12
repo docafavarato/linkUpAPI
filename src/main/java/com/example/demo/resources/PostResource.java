@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class PostResource {
 	@Autowired
 	private UserService userService;
 
+	@CrossOrigin(origins="*")
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> findAll() {
 		List<Post> obj = service.findAll();
@@ -41,6 +43,7 @@ public class PostResource {
 		return ResponseEntity.ok().body(objDto);
 	}
 	
+	@CrossOrigin(origins="*")
 	@GetMapping(value="/orderByDate")
 	public ResponseEntity<List<PostDTO>> findAllOrderByDateDesc() {
 		List<Post> obj = service.findAllOrderByDateDesc();
@@ -60,6 +63,7 @@ public class PostResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@CrossOrigin(origins="*")
 	@PostMapping(value="/insert", params={"userId"})
 	public ResponseEntity<Void> insert(@RequestBody Post obj, @RequestParam String userId) {
 		Post post = service.insert(obj, userId);
