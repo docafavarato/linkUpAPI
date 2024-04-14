@@ -80,6 +80,7 @@ public class PostService {
 	public void updateData(Post newObj, Post obj) {
 		newObj.setTitle(obj.getTitle());
 		newObj.setBody(obj.getBody());
+		newObj.setImgUrl(obj.getImgUrl());
 	}
 	
 	public List<PostDTO> toDtoList(List<Post> obj) {

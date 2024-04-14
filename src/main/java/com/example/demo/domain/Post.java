@@ -25,6 +25,8 @@ public class Post implements Serializable {
 	private String title;
 	private String body;
 	
+	private String imgUrl;
+	
 	private AuthorDTO author;
 	
 	private List<CommentDTO> comments = new ArrayList<>();
@@ -34,11 +36,12 @@ public class Post implements Serializable {
 	public Post() {
 	}
 	
-	public Post(String date, String title, String body, AuthorDTO author) {
+	public Post(String date, String title, String body, String imgUrl, AuthorDTO author) {
 		super();
 		this.date = date;
 		this.title = title;
 		this.body = body;
+		this.imgUrl = imgUrl;
 		this.setAuthor(author);
 	}
 
@@ -74,6 +77,14 @@ public class Post implements Serializable {
 		this.body = body;
 	}
 	
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	public AuthorDTO getAuthor() {
 		return author;
 	}

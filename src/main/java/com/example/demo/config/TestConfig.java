@@ -32,25 +32,46 @@ public class TestConfig implements CommandLineRunner {
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		
-		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "", "https://i2.wp.com/lojamundogeek.com.br/wp-content/uploads/2024/01/Explicacao-da-morte-comovente-de-Jessie-no-TWD-e-como-scaled.jpg", "", "");
-		User u2 = new User(null, "Alex Green", "alex@gmail.com", "", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2Ypq6d0hHXvirwzSp9eqXtSZpTSlnr5RUWsO-E17r6A&s", "", "");
-		User u3 = new User(null, "João Pedro Favarato", "doca@g", "123", "https://s2.glbimg.com/4msuRJyZ0DcD32h7XUE0AGtFHIE=/top/e.glbimg.com/og/ed/f/original/2018/07/20/rick5.png", "", "");
+		// userName, email, password, imgUrl, description, birthDate
 		
-		userRepository.saveAll(Arrays.asList(u1, u2, u3));
+		User u1 = new User(null, "João Pedro Favarato", "docafavarato@gmail.com", "123", "", "Fullstack software developer", "11/11/2005");
+		User u2 = new User(null, "Beatriz Cardoso Cavalcanti", "beatriz@gmail.com", "123", "", ":P", "29/11/2006");
+		User u3 = new User(null, "Bianca Melo Fernandes", "bianca@gmail.com", "123", "", "Trying to improve", "05/07/2004");
+		User u4 = new User(null, "Matheus Cunha Correia", "matheus@gmail.com", "123", "", "", "02/03/2007");
+		User u5 = new User(null, "Isabelle Pereira Lima", "isabelle@gmail.com", "123", "", "Nutrionist", "11/09/2004");
+		User u6 = new User(null, "Cauã Cavalcanti Cunha", "caua@gmail.com", "123", "", "", "04/12/2002");
+		User u7 = new User(null, "Daniel Correia Barbosa", "daniel@gmail.com", "123", "", "", "");
+		User u8 = new User(null, "Carlos Silva Gonçalves", "carlos@gmail.com", "123", "", "", "");
+		User u9 = new User(null, "Elon Musk", "elon@gmail.com", "123", "", "", "");
 		
-		Post post1 = new Post(formatter.format(LocalDateTime.of(2012, 3, 3, 0, 0)), "Let's go", "I'm going on a trip", new AuthorDTO(u1));
-		Post post2 = new Post(formatter.format(localDate), "Testing", "hell yeah", new AuthorDTO(u2));
+		userRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8, u9));
 		
-		CommentDTO c1 = new CommentDTO("Good trip, bro!", new AuthorDTO(u2));
+		Post post1 = new Post(formatter.format(LocalDateTime.of(2024, 4, 9, 10, 20)), "First post", "Hello, world. I'm the creator of Linkup. This is the first post ever made here, so feel free to leave a reply.", "", new AuthorDTO(u1));
+		Post post2 = new Post(formatter.format(LocalDateTime.of(2024, 4, 12, 8, 40, 57)), "Muito booom", "Essa rede social tá boa demaiss, pqp", "", new AuthorDTO(u2));
+		Post post3 = new Post(formatter.format(LocalDateTime.of(2024, 4, 13, 18, 43)), "Como usa?", "Ainda não sei usar direito KKKKKKKKKKKKKKK", "", new AuthorDTO(u3));
+		Post post4 = new Post(formatter.format(localDate), "Conheço o criador", "Fico feliz em afirmar que conheço o criador da LinkUp :P", "", new AuthorDTO(u4));
 		
-		post1.getComments().add(c1);
-		u2.getComments().add(c1);
+		CommentDTO c1 = new CommentDTO("Nice, bro!", new AuthorDTO(u5));
+		CommentDTO c2 = new CommentDTO("Hello from Brazil!", new AuthorDTO(u2));
+		CommentDTO c3 = new CommentDTO("Brazil mentioned?", new AuthorDTO(u7));
 		
-		postRepository.saveAll(Arrays.asList(post1, post2));
+		CommentDTO c4 = new CommentDTO("Eu também KKKKK mas é bem intuitivo pelo menos", new AuthorDTO(u9));
+		
+		post1.getComments().addAll(Arrays.asList(c1, c2, c3));
+		u2.getComments().add(c2);
+		u5.getComments().add(c1);
+		u7.getComments().add(c3);
+		
+		post3.getComments().add(c4);
+		u9.getComments().add(c4);
+		
+		postRepository.saveAll(Arrays.asList(post1, post2, post3, post4));
 		
 		u1.getPosts().add(post1);
 		u2.getPosts().add(post2);
+		u3.getPosts().add(post3);
+		u4.getPosts().add(post4);
 		
-		userRepository.saveAll(Arrays.asList(u1, u2));
+		userRepository.saveAll(Arrays.asList(u1, u2, u3, u4, u5, u6, u7, u8));
 	}
 }

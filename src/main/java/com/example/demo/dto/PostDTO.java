@@ -14,6 +14,7 @@ public class PostDTO implements Serializable {
 	String date;
 	String title;
 	String body;
+	String imgUrl;
 	
 	AuthorDTO author;
 	
@@ -30,6 +31,7 @@ public class PostDTO implements Serializable {
 		setDate(obj.getDate());
 		setTitle(obj.getTitle());
 		setBody(obj.getBody());
+		setImgUrl(obj.getImgUrl());
 		setAuthor(obj.getAuthor());
 		setComments(obj.getComments());
 		setUsersThatLiked(obj.getUsersThatLiked());
@@ -67,6 +69,14 @@ public class PostDTO implements Serializable {
 		this.body = body;
 	}
 	
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	public AuthorDTO getAuthor() {
 		return author;
 	}
