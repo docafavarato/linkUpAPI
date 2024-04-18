@@ -56,7 +56,12 @@ public class UserResource {
 	@GetMapping(value="/{id}/posts")
 	public ResponseEntity<List<PostDTO>> findPosts(@PathVariable String id, @RequestParam(value="orderByDate", defaultValue="false", required=false) Boolean orderByDate) {
 		User user = service.findById(id);
-		List<PostDTO> obj = orderByDate ? user.getPosts().stream().map(x -> new PostDTO(x)).collect(Collectors.toList()) : postService.findPostsByUserIdOrderByDateDesc(id).stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+		List<PostDTO> obj = new ArrayList<>();
+		if (orderByDate) {
+			obj = postService.findPostsByUserIdOrderByDateDesc(id).stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+		} else {
+			obj = user.getPosts().stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+		}
 		return ResponseEntity.ok().body(obj);
 	}
 	
