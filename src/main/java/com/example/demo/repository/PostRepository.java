@@ -20,4 +20,6 @@ public interface PostRepository extends MongoRepository<Post, String> {
 			"{ $sort: { date: -1 } }"
 	})
 	public List<Post> fullSearch(String text);
+	
+	public List<Post> findByTagsInOrderByDateDesc(String tag);
 }

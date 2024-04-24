@@ -95,4 +95,8 @@ public class PostService {
 	public List<Post> fullSearch(String text) {
 		return repository.fullSearch(text);
 	}
+	
+	public List<Post> findByTagsInOrderByDateDesc(String text) {
+		return repository.findByTagsInOrderByDateDesc(text);
+	}
 }

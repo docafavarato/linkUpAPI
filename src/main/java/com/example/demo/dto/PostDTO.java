@@ -22,6 +22,8 @@ public class PostDTO implements Serializable {
 	
 	List<UserLikeDTO> usersThatLiked;
 	
+	List<String> tags;
+	
 	public PostDTO() {
 	}
 	
@@ -35,6 +37,7 @@ public class PostDTO implements Serializable {
 		setAuthor(obj.getAuthor());
 		setComments(obj.getComments());
 		setUsersThatLiked(obj.getUsersThatLiked());
+		setTags(obj.getTags());
 	}
 
 	public String getId() {
@@ -99,6 +102,14 @@ public class PostDTO implements Serializable {
 
 	public void setUsersThatLiked(List<UserLikeDTO> usersThatLiked) {
 		this.usersThatLiked = usersThatLiked;
+	}
+	
+	public List<String> getTags() {
+		return tags;
+	}
+	
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
 	@Override

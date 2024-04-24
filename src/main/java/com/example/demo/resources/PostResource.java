@@ -58,6 +58,13 @@ public class PostResource {
 		return ResponseEntity.ok().body(objDto);
 	}
 	
+	@GetMapping(value="/searchByTag")
+	public ResponseEntity<List<PostDTO>> findByTagsInOrderByDateDesc(@RequestParam("tag") String tag) {
+		List<Post> obj = service.findByTagsInOrderByDateDesc(tag);
+		List<PostDTO> objDto = service.toDtoList(obj);
+		return ResponseEntity.ok().body(objDto);
+	}
+	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<PostDTO> findById(@PathVariable String id) {
 		Post obj = service.findById(id);

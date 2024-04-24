@@ -33,16 +33,19 @@ public class Post implements Serializable {
 	
 	private List<UserLikeDTO> usersThatLiked = new ArrayList<>();
 	
+	private List<String> tags = new ArrayList<>();
+	
 	public Post() {
 	}
 	
-	public Post(String date, String title, String body, String imgUrl, AuthorDTO author) {
+	public Post(String date, String title, String body, String imgUrl, AuthorDTO author, List<String> tags) {
 		super();
 		this.date = date;
 		this.title = title;
 		this.body = body;
 		this.imgUrl = imgUrl;
 		this.setAuthor(author);
+		this.setTags(tags);
 	}
 
 	public String getId() {
@@ -107,6 +110,14 @@ public class Post implements Serializable {
 
 	public void setUsersThatLiked(List<UserLikeDTO> usersThatLiked) {
 		this.usersThatLiked = usersThatLiked;
+	}
+	
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	
 	@Override
