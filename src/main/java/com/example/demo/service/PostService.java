@@ -99,4 +99,8 @@ public class PostService {
 	public List<Post> findByTagsInOrderByDateDesc(String text) {
 		return repository.findByTagsInOrderByDateDesc(text);
 	}
+	
+	public List<Post> findByUsersThatLikedOrderByDateDesc(String id) {
+		return repository.findByUsersThatLikedIdOrderByDateDesc(id);
+	}
 }

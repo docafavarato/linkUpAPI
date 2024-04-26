@@ -22,4 +22,6 @@ public interface PostRepository extends MongoRepository<Post, String> {
 	public List<Post> fullSearch(String text);
 	
 	public List<Post> findByTagsInOrderByDateDesc(String tag);
+	
+	public List<Post> findByUsersThatLikedIdOrderByDateDesc(String id);
 }

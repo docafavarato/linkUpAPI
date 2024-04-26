@@ -126,9 +126,9 @@ public class UserService {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
 	
-		if (!user.getlikedPosts().contains(new PostDTO(post))) {
+		if (!user.getlikedPosts().contains(post)) {
 			post.getUsersThatLiked().add(new UserLikeDTO(user));
-			user.getlikedPosts().add(new PostDTO(post));
+			user.getlikedPosts().add(post);
 			
 			postRepository.save(post);
 			repository.save(user);
@@ -155,9 +155,9 @@ public class UserService {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
 	
-		if (user.getlikedPosts().contains(new PostDTO(post))) {
+		if (user.getlikedPosts().contains(post)) {
 			post.getUsersThatLiked().remove(new UserLikeDTO(user));
-			user.getlikedPosts().remove(new PostDTO(post));
+			user.getlikedPosts().remove(post);
 			
 			postRepository.save(post);
 			repository.save(user);

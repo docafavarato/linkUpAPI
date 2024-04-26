@@ -37,7 +37,7 @@ public class User implements Serializable {
 	
 	private List<CommentDTO> comments = new ArrayList<>();
 	
-	private List<PostDTO> likedPosts = new ArrayList<>();
+	private List<Post> likedPosts = new ArrayList<>();
 	
 	private List<UserDTO> followers = new ArrayList<>();
 	private List<UserDTO> following = new ArrayList<>();
@@ -128,11 +128,11 @@ public class User implements Serializable {
 		this.birthDate = birthDate;
 	}
 	
-	public List<PostDTO> getlikedPosts() {
+	public List<Post> getlikedPosts() {
 		return likedPosts;
 	}
 
-	public void setPostsLiked(List<PostDTO> likedPosts) {
+	public void setPostsLiked(List<Post> likedPosts) {
 		this.likedPosts = likedPosts;
 	}
 	
