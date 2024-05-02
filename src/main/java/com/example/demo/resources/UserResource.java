@@ -145,7 +145,7 @@ public class UserResource {
 	@PostMapping(value="/{id}/comment", params={"postId"})
 	public ResponseEntity<Void> comment(@PathVariable String id, @RequestParam String postId, @RequestBody CommentDTO commentDto) {
 		LocalDateTime localDate = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
 		commentDto.setAuthor(new AuthorDTO(service.findById(id)));
 		commentDto.setDate(localDate.format(formatter));
 		service.comment(id, postId, commentDto);

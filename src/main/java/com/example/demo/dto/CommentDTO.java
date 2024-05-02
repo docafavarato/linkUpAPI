@@ -19,7 +19,7 @@ public class CommentDTO implements Serializable {
 	
 	public CommentDTO(String body, AuthorDTO author) {
 		LocalDateTime localDate = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
 		setId(UUID.randomUUID().toString());
 		setBody(body);
 		setDate(localDate.format(formatter));
