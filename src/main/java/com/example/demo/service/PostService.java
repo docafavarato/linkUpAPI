@@ -44,7 +44,7 @@ public class PostService {
 	
 	public Post insert(Post obj, String userId) {
 		LocalDateTime localDate = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
 
 		obj.setDate(localDate.format(formatter));
 		obj.setAuthor(new AuthorDTO(userRepository.findById(userId).get()));
