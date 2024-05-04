@@ -40,7 +40,6 @@ public class PostResource {
 	@Autowired
 	private TagService tagService;
 
-	@CrossOrigin(origins="*")
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> findAll() {
 		List<Post> obj = service.findAll();
@@ -48,7 +47,6 @@ public class PostResource {
 		return ResponseEntity.ok().body(objDto);
 	}
 	
-	@CrossOrigin(origins="*")
 	@GetMapping(value="/orderByDate")
 	public ResponseEntity<List<PostDTO>> findAllOrderByDateDesc() {
 		List<Post> obj = service.findAllOrderByDateDesc();
@@ -82,13 +80,13 @@ public class PostResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@CrossOrigin(origins="*")
 	@PostMapping(value="/insert", params={"userId"})
 	public ResponseEntity<Void> insert(@RequestBody Post obj, @RequestParam String userId) {
 		Post post = service.insert(obj, userId);
 		
 		for (Tag tag : post.getTags()) {
 			tag.setTimesUsed(tag.getTimesUsed() + 1);
+			tag.setLastUsed(post.getDate());
 			tagService.save(tag);
 		}
 		

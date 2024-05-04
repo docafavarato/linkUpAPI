@@ -20,6 +20,8 @@ public class Tag implements Serializable {
 	
 	private Integer timesUsed;
 	
+	private String lastUsed;
+	
 	public Tag() {}
 	
 	public Tag(String name) {
@@ -48,6 +50,14 @@ public class Tag implements Serializable {
 
 	public void setTimesUsed(Integer timesUsed) {
 		this.timesUsed = timesUsed;
+	}
+	
+	public String getLastUsed() {
+		return lastUsed;
+	}
+
+	public void setLastUsed(String lastUsed) {
+		this.lastUsed = lastUsed;
 	}
 	
 	@Override
