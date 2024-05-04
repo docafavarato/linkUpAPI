@@ -20,13 +20,10 @@ public class Tag implements Serializable {
 	
 	private Integer timesUsed;
 	
-	public Tag() {
-		this.timesUsed = 0;
-	}
+	public Tag() {}
 	
 	public Tag(String name) {
 		this.name = name;
-		this.timesUsed = 0;
 	}
 
 	public String getId() {

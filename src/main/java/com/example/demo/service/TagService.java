@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Post;
 import com.example.demo.domain.Tag;
 import com.example.demo.repository.TagRepository;
 import com.example.demo.services.exception.ObjectNotFoundException;
@@ -36,6 +37,7 @@ public class TagService {
 	}
 	
 	public Tag insert(Tag obj) {
+		obj.setTimesUsed(0);
 		return repository.insert(obj);
 	}
 	
