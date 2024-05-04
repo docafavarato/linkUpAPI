@@ -40,6 +40,12 @@ public class TagResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@GetMapping(value="/trending", params={"limit"})
+	public ResponseEntity<List<Tag>> findTrending(@RequestParam int limit) {
+		List<Tag> obj = service.findTrending(limit);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@GetMapping(value="/search", params={"name"})
 	public ResponseEntity<Tag> findByName(@RequestParam String name) {
 		Tag obj = service.findByName(name);

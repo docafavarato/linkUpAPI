@@ -48,4 +48,8 @@ public class TagService {
 	public void delete(Tag obj) {
 		repository.delete(obj);
 	}
+	
+	public List<Tag> findTrending(int limit) {
+		return repository.findTrending(limit);
+	}
 }
