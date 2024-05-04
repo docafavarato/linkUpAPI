@@ -3,9 +3,9 @@ package com.example.demo.dto;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.example.demo.domain.Post;
+import com.example.demo.domain.Tag;
 
 public class PostDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +22,7 @@ public class PostDTO implements Serializable {
 	
 	List<UserLikeDTO> usersThatLiked;
 	
-	List<String> tags;
+	List<Tag> tags;
 	
 	public PostDTO() {
 	}
@@ -104,11 +104,11 @@ public class PostDTO implements Serializable {
 		this.usersThatLiked = usersThatLiked;
 	}
 	
-	public List<String> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 	
-	public void setTags(List<String> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 

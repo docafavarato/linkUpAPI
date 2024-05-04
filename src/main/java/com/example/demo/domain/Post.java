@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
@@ -33,12 +32,12 @@ public class Post implements Serializable {
 	
 	private List<UserLikeDTO> usersThatLiked = new ArrayList<>();
 	
-	private List<String> tags = new ArrayList<>();
+	private List<Tag> tags = new ArrayList<>();
 	
 	public Post() {
 	}
 	
-	public Post(String date, String title, String body, String imgUrl, AuthorDTO author, List<String> tags) {
+	public Post(String date, String title, String body, String imgUrl, AuthorDTO author, List<Tag> tags) {
 		super();
 		this.date = date;
 		this.title = title;
@@ -112,11 +111,11 @@ public class Post implements Serializable {
 		this.usersThatLiked = usersThatLiked;
 	}
 	
-	public List<String> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<String> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 	

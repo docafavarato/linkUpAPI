@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.domain.Post;
+import com.example.demo.domain.Tag;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.service.PostService;
+import com.example.demo.service.TagService;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -34,6 +36,9 @@ public class PostResource {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TagService tagService;
 
 	@CrossOrigin(origins="*")
 	@GetMapping
@@ -82,6 +87,11 @@ public class PostResource {
 	public ResponseEntity<Void> insert(@RequestBody Post obj, @RequestParam String userId) {
 		Post post = service.insert(obj, userId);
 		
+		for (Tag tag : post.getTags()) {
+			tag.setTimesUsed(tag.getTimesUsed() + 1);
+			tagService.save(tag);
+		}
+		
 		User user = userService.findById(userId);
 		obj.setAuthor(new AuthorDTO(user));
 		user.getPosts().add(obj);
@@ -93,6 +103,12 @@ public class PostResource {
 	
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {
+		Post obj = service.findById(id);
+		
+		for (Tag tag : obj.getTags()) {
+			tagService.save(tag);
+		}
+		
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

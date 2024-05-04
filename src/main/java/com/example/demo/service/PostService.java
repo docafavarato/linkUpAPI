@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Post;
+import com.example.demo.domain.Tag;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.TagRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.exception.ObjectNotFoundException;
 
@@ -26,6 +28,9 @@ public class PostService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TagRepository tagRepository;
 	
 	public Post findById(String id) {
 		Optional<Post> obj = repository.findById(id);
@@ -48,6 +53,7 @@ public class PostService {
 
 		obj.setDate(localDate.format(formatter));
 		obj.setAuthor(new AuthorDTO(userRepository.findById(userId).get()));
+		
 		return repository.insert(obj);
 	}
 	
@@ -97,7 +103,7 @@ public class PostService {
 	}
 	
 	public List<Post> findByTagsInOrderByDateDesc(String text) {
-		return repository.findByTagsInOrderByDateDesc(text);
+		return repository.findByTagsNameInOrderByDateDesc(text);
 	}
 	
 	public List<Post> findByUsersThatLikedOrderByDateDesc(String id) {
