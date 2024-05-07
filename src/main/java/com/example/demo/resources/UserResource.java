@@ -142,6 +142,20 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@GetMapping(value="/{id}/following")
+	public ResponseEntity<List<UserDTO>> findFollowing(@PathVariable String id) {
+		User user = service.findById(id);
+		List<UserDTO> obj = user.getFollowing();
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value="/{id}/followers")
+	public ResponseEntity<List<UserDTO>> findFollowers(@PathVariable String id) {
+		User user = service.findById(id);
+		List<UserDTO> obj = user.getFollowers();
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@PostMapping(value="/{id}/comment", params={"postId"})
 	public ResponseEntity<Void> comment(@PathVariable String id, @RequestParam String postId, @RequestBody CommentDTO commentDto) {
 		LocalDateTime localDate = LocalDateTime.now();
