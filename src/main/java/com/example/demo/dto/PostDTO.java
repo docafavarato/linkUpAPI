@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.Tag;
 
@@ -18,7 +19,7 @@ public class PostDTO implements Serializable {
 	
 	AuthorDTO author;
 	
-	List<CommentDTO> comments;
+	List<Comment> comments;
 	
 	List<UserLikeDTO> usersThatLiked;
 	
@@ -88,11 +89,11 @@ public class PostDTO implements Serializable {
 		this.author = author;
 	}
 
-	public List<CommentDTO> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<CommentDTO> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 

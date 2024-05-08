@@ -9,18 +9,18 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
-import com.example.demo.dto.CommentDTO;
-import com.example.demo.dto.PostDTO;
+import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserLikeDTO;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.exception.BadRequestException;
@@ -34,6 +34,9 @@ public class UserService {
 	
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 
 	public User findById(String id) {
 		Optional<User> obj = repository.findById(id);
@@ -138,17 +141,19 @@ public class UserService {
 	
 	}
 	
-	public void comment(String userId, String postId, CommentDTO comment) {
+	public void comment(String userId, String postId, Comment comment) {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
+		commentRepository.insert(comment);
 		
-		comment.setId(UUID.randomUUID().toString());
 		
 		user.getComments().add(comment);
 		post.getComments().add(comment);
+		comment.setAuthor(new AuthorDTO(user));
 		
 		repository.save(user);
 		postRepository.save(post);
+		commentRepository.save(comment);
 	}
 	
 	public void unlikePost(String userId, String postId) {

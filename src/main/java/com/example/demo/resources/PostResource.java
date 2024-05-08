@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.Tag;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.service.PostService;
 import com.example.demo.service.TagService;
@@ -75,8 +74,8 @@ public class PostResource {
 	}
 	
 	@GetMapping(value="/{id}/comments")
-	public ResponseEntity<List<CommentDTO>> findComments(@PathVariable String id) {
-		List<CommentDTO> obj = service.findById(id).getComments();
+	public ResponseEntity<List<Comment>> findComments(@PathVariable String id) {
+		List<Comment> obj = service.findById(id).getComments();
 		return ResponseEntity.ok().body(obj);
 	}
 	

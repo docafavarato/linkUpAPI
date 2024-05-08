@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.service.CommentService;
 import com.example.demo.service.PostService;
 import com.example.demo.service.UserService;
 
@@ -38,6 +39,9 @@ public class UserResource {
 	
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
@@ -71,8 +75,8 @@ public class UserResource {
 	}
 	
 	@GetMapping(value="/{id}/comments")
-	public ResponseEntity<List<CommentDTO>> findComments(@PathVariable String id) {
-		List<CommentDTO> obj = service.findById(id).getComments();
+	public ResponseEntity<List<Comment>> findComments(@PathVariable String id) {
+		List<Comment> obj = service.findById(id).getComments();
 		return ResponseEntity.ok().body(obj);
 	}
 	
@@ -157,12 +161,12 @@ public class UserResource {
 	}
 	
 	@PostMapping(value="/{id}/comment", params={"postId"})
-	public ResponseEntity<Void> comment(@PathVariable String id, @RequestParam String postId, @RequestBody CommentDTO commentDto) {
+	public ResponseEntity<Void> comment(@PathVariable String id, @RequestParam String postId, @RequestBody Comment comment) {
 		LocalDateTime localDate = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
-		commentDto.setAuthor(new AuthorDTO(service.findById(id)));
-		commentDto.setDate(localDate.format(formatter));
-		service.comment(id, postId, commentDto);
+		comment.setAuthor(new AuthorDTO(service.findById(id)));
+		comment.setDate(localDate.format(formatter));
+		service.comment(id, postId, comment);
 		return ResponseEntity.noContent().build();
 	}
 	
@@ -172,6 +176,8 @@ public class UserResource {
 		Post post = postService.findById(postId);
 		user.getComments().removeIf(x -> x.getId().equals(commentId));
 		post.getComments().removeIf(x -> x.getId().equals(commentId));
+		
+		commentService.delete(commentId);
 		
 		service.save(user);
 		postService.save(post);

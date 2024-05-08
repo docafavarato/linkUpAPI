@@ -9,14 +9,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
-import com.example.demo.domain.Tag;
 import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
-import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.repository.PostRepository;
-import com.example.demo.repository.TagRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.exception.ObjectNotFoundException;
 
@@ -28,9 +26,7 @@ public class PostService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private TagRepository tagRepository;
+
 	
 	public Post findById(String id) {
 		Optional<Post> obj = repository.findById(id);
@@ -68,7 +64,7 @@ public class PostService {
 		user.getPosts().remove(post);
 		userRepository.save(user);
 		
-		for (CommentDTO c : post.getComments()) {
+		for (Comment c : post.getComments()) {
 			User u = userRepository.findById(c.getAuthor().getId()).get();
 			u.getComments().remove(c);
 			userRepository.save(u);
