@@ -40,6 +40,8 @@ public class User implements Serializable {
 	private List<UserDTO> followers = new ArrayList<>();
 	private List<UserDTO> following = new ArrayList<>();
 	
+	private List<Comment> likedComments = new ArrayList<>();
+	
 	public User() {
 	}
 
@@ -130,7 +132,7 @@ public class User implements Serializable {
 		return likedPosts;
 	}
 
-	public void setPostsLiked(List<Post> likedPosts) {
+	public void setLikedPosts(List<Post> likedPosts) {
 		this.likedPosts = likedPosts;
 	}
 	
@@ -150,6 +152,14 @@ public class User implements Serializable {
 		this.followers = followers;
 	}
 	
+	public List<Comment> getLikedComments() {
+		return likedComments;
+	}
+
+	public void setLikedComments(List<Comment> likedComments) {
+		this.likedComments = likedComments;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
