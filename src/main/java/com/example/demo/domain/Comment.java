@@ -3,10 +3,14 @@ package com.example.demo.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
+import com.example.demo.dto.UserLikeDTO;
 
 import jakarta.persistence.Id;
 
@@ -20,6 +24,8 @@ public class Comment implements Serializable {
 	private String body;
 	private String date;
 	private AuthorDTO author;
+	
+	private List<UserLikeDTO> usersThatLiked = new ArrayList<>();
 
 	public Comment() {
 	}
@@ -64,4 +70,28 @@ public class Comment implements Serializable {
 		this.author = author;
 	}
 
+	public List<UserLikeDTO> getUsersThatLiked() {
+		return usersThatLiked;
+	}
+
+	public void setUsersThatLiked(List<UserLikeDTO> usersThatLiked) {
+		this.usersThatLiked = usersThatLiked;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comment other = (Comment) obj;
+		return Objects.equals(id, other.id);
+	}
 }
