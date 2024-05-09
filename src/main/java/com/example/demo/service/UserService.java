@@ -125,6 +125,36 @@ public class UserService {
 		return objDto;
 	}
 	
+	public void likeComment(String userId, String commentId) {
+		User user = repository.findById(userId).get();
+		Comment comment = commentRepository.findById(commentId).get();
+		
+		if (!user.getLikedComments().contains(comment)) {
+			comment.getUsersThatLiked().add(new UserLikeDTO(user));
+			user.getLikedComments().add(comment);
+			
+			commentRepository.save(comment);
+			repository.save(user);
+		} else {
+			throw new BadRequestException("The user already liked this comment");
+		}
+	}
+	
+	public void unlikeComment(String userId, String commentId) {
+		User user = repository.findById(userId).get();
+		Comment comment = commentRepository.findById(commentId).get();
+		
+		if (user.getLikedComments().contains(comment)) {
+			comment.getUsersThatLiked().remove(new UserLikeDTO(user));
+			user.getLikedComments().remove(comment);
+			
+			commentRepository.save(comment);
+			repository.save(user);
+		} else {
+			throw new BadRequestException("The user never liked this comment");
+		}
+	}
+	
 	public void likePost(String userId, String postId) {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
@@ -137,6 +167,22 @@ public class UserService {
 			repository.save(user);
 		} else {
 			throw new BadRequestException("The user already liked this post");
+		}
+	
+	}
+	
+	public void unlikePost(String userId, String postId) {
+		User user = repository.findById(userId).get();
+		Post post = postRepository.findById(postId).get();
+	
+		if (user.getlikedPosts().contains(post)) {
+			post.getUsersThatLiked().remove(new UserLikeDTO(user));
+			user.getlikedPosts().remove(post);
+			
+			postRepository.save(post);
+			repository.save(user);
+		} else {
+			throw new BadRequestException("The user never liked this post");
 		}
 	
 	}
@@ -154,22 +200,6 @@ public class UserService {
 		repository.save(user);
 		postRepository.save(post);
 		commentRepository.save(comment);
-	}
-	
-	public void unlikePost(String userId, String postId) {
-		User user = repository.findById(userId).get();
-		Post post = postRepository.findById(postId).get();
-	
-		if (user.getlikedPosts().contains(post)) {
-			post.getUsersThatLiked().remove(new UserLikeDTO(user));
-			user.getlikedPosts().remove(post);
-			
-			postRepository.save(post);
-			repository.save(user);
-		} else {
-			throw new BadRequestException("The user never liked this post");
-		}
-	
 	}
 	
 	public void follow(String userId, String followedId) {

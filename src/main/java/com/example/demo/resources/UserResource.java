@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.example.demo.domain.User;
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.PostDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserLikeDTO;
 import com.example.demo.service.CommentService;
 import com.example.demo.service.PostService;
 import com.example.demo.service.UserService;
@@ -127,6 +129,18 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@GetMapping(value="/{id}/likeComment", params={"commentId"})
+	public ResponseEntity<Void> likeComment(@PathVariable String id, @RequestParam String commentId) {
+		service.likeComment(id, commentId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value="/{id}/unlikeComment", params={"commentId"})
+	public ResponseEntity<Void> unlikeComment(@PathVariable String id, @RequestParam String commentId) {
+		service.unlikeComment(id, commentId);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@GetMapping(value="/{id}/follow", params={"userId"})
 	public ResponseEntity<Void> follow(@PathVariable String id, @RequestParam String userId) {
 		service.follow(id, userId);
@@ -174,8 +188,18 @@ public class UserResource {
 	public ResponseEntity<Void> deleteComment(@PathVariable String id, @RequestParam String postId, @RequestParam String commentId) {
 		User user = service.findById(id);
 		Post post = postService.findById(postId);
+		Comment comment = commentService.findById(commentId);
+		
 		user.getComments().removeIf(x -> x.getId().equals(commentId));
 		post.getComments().removeIf(x -> x.getId().equals(commentId));
+		
+		comment.getUsersThatLiked().stream().forEach(new Consumer<UserLikeDTO>() {
+			public void accept(UserLikeDTO userLikeDto) {
+				User userLike = service.findById(userLikeDto.getId());
+				userLike.getLikedComments().remove(comment);
+				service.save(userLike);
+			}
+		});
 		
 		commentService.delete(commentId);
 		
