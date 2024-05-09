@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.dto.AuthorDTO;
 import com.example.demo.dto.UserLikeDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Id;
 
@@ -26,6 +28,10 @@ public class Comment implements Serializable {
 	private AuthorDTO author;
 	
 	private List<UserLikeDTO> usersThatLiked = new ArrayList<>();
+	
+	@JsonIgnore
+	@DBRef(lazy=true)
+	private Post post;
 
 	public Comment() {
 	}
@@ -76,6 +82,14 @@ public class Comment implements Serializable {
 
 	public void setUsersThatLiked(List<UserLikeDTO> usersThatLiked) {
 		this.usersThatLiked = usersThatLiked;
+	}
+	
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 	@Override

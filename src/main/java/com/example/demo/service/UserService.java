@@ -128,6 +128,7 @@ public class UserService {
 	public void likeComment(String userId, String commentId) {
 		User user = repository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
+		Post post = comment.getPost();
 		
 		if (!user.getLikedComments().contains(comment)) {
 			comment.getUsersThatLiked().add(new UserLikeDTO(user));
@@ -135,6 +136,7 @@ public class UserService {
 			
 			commentRepository.save(comment);
 			repository.save(user);
+			postRepository.save(post);
 		} else {
 			throw new BadRequestException("The user already liked this comment");
 		}
@@ -143,6 +145,7 @@ public class UserService {
 	public void unlikeComment(String userId, String commentId) {
 		User user = repository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
+		Post post = comment.getPost();
 		
 		if (user.getLikedComments().contains(comment)) {
 			comment.getUsersThatLiked().remove(new UserLikeDTO(user));
@@ -150,6 +153,7 @@ public class UserService {
 			
 			commentRepository.save(comment);
 			repository.save(user);
+			postRepository.save(post);
 		} else {
 			throw new BadRequestException("The user never liked this comment");
 		}
@@ -190,6 +194,7 @@ public class UserService {
 	public void comment(String userId, String postId, Comment comment) {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
+		comment.setPost(post);
 		commentRepository.insert(comment);
 		
 		
