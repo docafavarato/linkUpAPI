@@ -28,7 +28,7 @@ public class PostService {
 	private UserRepository userRepository;
 
 	
-	public Post findById(String id) {
+	public Post findById(String id) throws ObjectNotFoundException {
 		Optional<Post> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Post not found"));
 	}

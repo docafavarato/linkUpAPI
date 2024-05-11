@@ -38,7 +38,7 @@ public class UserService {
 	@Autowired
 	private CommentRepository commentRepository;
 
-	public User findById(String id) {
+	public User findById(String id) throws ObjectNotFoundException {
 		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("User not found"));
 	}
@@ -125,7 +125,7 @@ public class UserService {
 		return objDto;
 	}
 	
-	public void likeComment(String userId, String commentId) {
+	public void likeComment(String userId, String commentId) throws BadRequestException {
 		User user = repository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
 		Post post = comment.getPost();
@@ -142,7 +142,7 @@ public class UserService {
 		}
 	}
 	
-	public void unlikeComment(String userId, String commentId) {
+	public void unlikeComment(String userId, String commentId) throws BadRequestException {
 		User user = repository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
 		Post post = comment.getPost();
@@ -159,7 +159,7 @@ public class UserService {
 		}
 	}
 	
-	public void likePost(String userId, String postId) {
+	public void likePost(String userId, String postId) throws BadRequestException {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
 	
@@ -175,7 +175,7 @@ public class UserService {
 	
 	}
 	
-	public void unlikePost(String userId, String postId) {
+	public void unlikePost(String userId, String postId) throws BadRequestException {
 		User user = repository.findById(userId).get();
 		Post post = postRepository.findById(postId).get();
 	
@@ -207,7 +207,7 @@ public class UserService {
 		commentRepository.save(comment);
 	}
 	
-	public void follow(String userId, String followedId) {
+	public void follow(String userId, String followedId) throws BadRequestException {
 		User user = repository.findById(userId).get();
 		User followed = repository.findById(followedId).get();
 		
@@ -225,7 +225,7 @@ public class UserService {
 		}
 	}
 	
-	public void unfollow(String userId, String followedId) {
+	public void unfollow(String userId, String followedId) throws BadRequestException {
 		User user = repository.findById(userId).get();
 		User followed = repository.findById(followedId).get();
 		
