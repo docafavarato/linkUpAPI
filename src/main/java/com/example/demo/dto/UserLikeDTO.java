@@ -17,43 +17,19 @@ public class UserLikeDTO implements Serializable {
 	}
 	
 	public UserLikeDTO(User obj) {
-		setId(obj.getId());
-		setName(obj.getUserName());
-		setImgUrl(obj.getImgUrl());
-		setDescription(obj.getDescription());
+		this.id = obj.getId();
+		this.name = obj.getUserName();
+		this.imgUrl = obj.getImgUrl();
+		this.description = obj.getDescription();
 	}
 
-	public String getId() {
-		return id;
-	}
+	public String getId() { return id; }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+	public String getName() { return name; }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
+	public String getImgUrl() { return imgUrl; }
 	
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public String getDescription() { return description; }
 
 	@Override
 	public int hashCode() {
